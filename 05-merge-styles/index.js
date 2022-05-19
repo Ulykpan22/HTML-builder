@@ -21,15 +21,18 @@ const bundleCSS = async function(stylesDir) {
   }
 
   const bundleFile = path.join(__dirname, 'project-dist', 'bundle.css');
-  fs.writeFile(bundleFile, '', err => {
+  fs.writeFile(bundleFile, '', async err => {
     if (err)
       throw err;
 
     const writable = fs.createWriteStream(bundleFile);
 
-    streams.forEach(value => {
-      value.pipe(writable);
-    });
+    for (const stream of streams) {
+      for await (const chunk of stream) {
+        writable.write(chunk);
+      }
+      writable.write('\n\n');
+    }
   });
 
 };

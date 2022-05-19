@@ -14,7 +14,7 @@ const rl = readline.createInterface({input: process.stdin, output: process.stdou
 
 const recursiveReadline = function () {
   rl.question('Text something: ', (answer) => {
-    if (answer == 'exit') {
+    if (answer === 'exit') {
       closeRL(rl);
       return;
     }
